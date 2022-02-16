@@ -4,6 +4,7 @@ contract ERC721 {
 
   event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);
   event ApprovalForAll(address indexed _owner, address  indexed _operator, bool _approved);
+  event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
 
   // Tracks the balences. The owners address will return the number of NFTs the owner has
   mapping(address => uint256) internal _balances;
@@ -61,6 +62,53 @@ contract ERC721 {
     require(_owners[tokenId] != address(0), "Token ID does not exist.");
 
     return _tokenApprovals[tokenId];
+  }
+
+  // Transfer ownership of an NFT
+  function transferFrom(address from, address to, uint256 tokenId) public {
+    address owner = ownerOf(tokenId);
+
+    // Error check to verify sender is current owner or approved address for the NFT
+    require(
+      msg.sender == owner ||
+      getApproved(tokenId) == msg.sender ||
+      isApprovedForAll(owner, msg.sender),
+      "Msg.sender is not the owner or approved for transfer."
+    );
+
+    // Error check to verify that sender is owner
+    require(owner == from, "From address is not the owner.");
+
+    // Error check to verify that receiver address is not zero
+    require(to != address(0), "Address is zero.");
+
+    // Error check to check if tokenId is a valid NFT
+    require(_owners[tokenId] != address(0), "Toke ID does not exist.");
+
+    // Clear out the old owners approvals for the NFT
+    approve(address(0), tokenId);
+
+    _balances[from] -= 1;
+    _balances[to] += 1;
+    _owners[tokenId] = to;
+
+    emit Transfer(from, to, tokenId);
+  }
+
+
+  // Standard transferFrom but also checks if onERC721Received is implemented WHEN sending to smart contracts
+  function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public {
+    transferFrom(from, to, tokenId);
+    require(_checkOnERC721Received(), "Receiver not implemented.");
+  }
+
+  function safeTransferFrom(address from, address to, uint256 tokenId) public {
+    safeTransferFrom(from, to, tokenId, "");
+  }
+
+  // Oversimplified
+  function _checkOnERC721Received() private pure returns(bool) {
+    return true;
   }
 
 
