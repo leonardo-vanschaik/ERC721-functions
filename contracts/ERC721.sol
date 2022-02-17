@@ -112,4 +112,9 @@ contract ERC721 {
   }
 
 
+  // EIP165 : Query if a contract implements another interace
+  function supportsInterface(bytes4 interfaceId) public pure virtual returns(bool) {
+    return interfaceId == 0x80ac58cd;
+  }
+
 }
