@@ -1,0 +1,22 @@
+{
+  "name": "Juju",
+  "description": "Juju failed school. He's nice but kinda dumb...",
+  "image": "https://ipfs.io/ipfs/QmauH3FjU6FXYXDTKPnGtid3eYqg3d8czHYWspmT4ZFpk8",
+  "attributes": [
+    {
+      "trait_type": "Intelligence",
+      "value": 1,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Kindness",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Money",
+      "value": 5,
+      "max_value": 10
+    }
+  ]
+}

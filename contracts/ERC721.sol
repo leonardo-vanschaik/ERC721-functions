@@ -6,7 +6,7 @@ contract ERC721 {
   event ApprovalForAll(address indexed _owner, address  indexed _operator, bool _approved);
   event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
 
-  // Tracks the balences. The owners address will return the number of NFTs the owner has
+  // Tracks the balances. The owners address will return the number of NFTs the owner has
   mapping(address => uint256) internal _balances;
 
   // Tracks the owner of NFT. The NFT id will return the owner address
@@ -23,7 +23,7 @@ contract ERC721 {
 
     // Error Checking to ensure address is not 0
     require(owner != address(0), "Address is zero.");
-    return _balences[owner];
+    return _balances[owner];
   }
 
   // Finds the owner of an NFT
